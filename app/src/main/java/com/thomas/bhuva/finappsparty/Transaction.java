@@ -93,4 +93,7 @@ public class Transaction {
         });
 
     }
+    public static void processTransactionGPS(){
+
+    }
 }

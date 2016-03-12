@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -51,9 +52,6 @@ public class MyGcmListenerService extends GcmListenerService{
             e.printStackTrace();
         }
 
-
-
-
         t1 = new TextToSpeech(this.getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -80,11 +78,17 @@ public class MyGcmListenerService extends GcmListenerService{
                                 stopSelf();
 
                             }else if(Transaction.mode == Transaction.GPS){
-
-                               //get and check gps
-
-                                t1.speak("GPS coordinates match! Transaction processing and is successful.",TextToSpeech.QUEUE_FLUSH,null);
+                                //get and check gps
+                                float curlati = 232.32f;
+                                float curlongi = 232.232f;
+                                if(Transaction.latitude == curlati && Transaction.longitute == curlongi){
+                                    //process trans
+                                }else{
+                                    //trans not processed
+                                }
+                                t1.speak("GPS coordinates match! Transaction processing and is successful.", TextToSpeech.QUEUE_FLUSH, null);
                                 //Transaction.processTransaction();
+                                Transaction.processTransactionGPS();
                                 stopSelf();
                             }
 
