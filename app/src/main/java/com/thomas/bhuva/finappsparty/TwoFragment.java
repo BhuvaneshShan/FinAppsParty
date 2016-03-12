@@ -83,6 +83,13 @@ public class TwoFragment extends Fragment {
 
             //Setting the android ListView's adapter to the newly created adapter
             transListView.setAdapter(countryAdapter);
+            transListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    transListView.deferNotifyDataSetChanged();
+                }
+            });
+
         }
         catch(Exception e){
             e.printStackTrace();
