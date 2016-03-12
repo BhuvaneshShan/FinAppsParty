@@ -83,8 +83,8 @@ public class MyGcmListenerService extends GcmListenerService{
 
                                //get and check gps
 
-                                t1.speak("GPS coordinates match! Transaction processing and is successful!",TextToSpeech.QUEUE_FLUSH,null);
-
+                                t1.speak("GPS coordinates match! Transaction processing and is successful.",TextToSpeech.QUEUE_FLUSH,null);
+                                //Transaction.processTransaction();
                                 stopSelf();
                             }
 
@@ -116,6 +116,9 @@ public class MyGcmListenerService extends GcmListenerService{
         @Override
         public void run() {
             if(mediaPlayer!=null) {
+                if(Transaction.finishedTransaction==false){
+                    t1.speak("The payment was not processed!",TextToSpeech.QUEUE_FLUSH,null );
+                }
                 Transaction.clearTransactionDetails();
                 mediaPlayer.stop();
                 mediaPlayer.release();

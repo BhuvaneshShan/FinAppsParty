@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
        mSettingsContentObserver = new SettingsContentObserver(this,new android.os.Handler());
         getApplicationContext().getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver );
+
+        Transaction.setcontext(this.getApplicationContext());
     }
 
     @Override
