@@ -86,7 +86,12 @@ public class TwoFragment extends Fragment {
             transListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    transListView.deferNotifyDataSetChanged();
+                    //transListView.deferNotifyDataSetChanged();
+
+                        view.invalidate();
+
+
+                    
                 }
             });
 
@@ -94,29 +99,7 @@ public class TwoFragment extends Fragment {
         catch(Exception e){
             e.printStackTrace();
         }
-        transListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //The position where the list item is clicked is obtained from the
-                //the parameter position of the android listview
-                /*
-                int itemPosition = position;
 
-
-                //Get the String value of the item where the user clicked
-                String itemValue = (String) cardListView.getItemAtPosition(position);
-
-                //In order to start displaying new activity we need an intent
-                Intent intent = new Intent(getContext(), CountryActivity.class);
-
-                //Putting the Id of image as an extra in intent
-                intent.putExtra("flag", FlagId[position]);
-
-                //Here we will pass the previously created intent as parameter
-                startActivity(intent);
-                */
-            }
-        });
         return view;
     }
 
