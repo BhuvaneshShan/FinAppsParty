@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -65,8 +66,23 @@ public class OneFragment extends Fragment {
                 startActivity(intent);
                 */
             }
+
+
         });
-        return view;
+            final Button button = (Button) view.findViewById(R.id.addCard);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+
+                    Intent activityChangeIntent = new Intent(getActivity().getApplicationContext(), RegInsert.class);
+
+                    // currentContext.startActivity(activityChangeIntent);
+
+                    startActivity(activityChangeIntent);
+                }
+            });
+
+            return view;
     }
 
 }

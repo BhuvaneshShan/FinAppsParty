@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -41,6 +42,11 @@ public class MyGcmListenerService extends GcmListenerService{
             JSONObject obj = new JSONObject(message);
 
             Transaction.newTransaction(obj);
+            RegDbConn regdbconn = new RegDbConn(gcmContext);
+            if ( regdbconn.insertTransaction(Transaction.vendorName, Transaction.vendorId, Integer.parseInt(Transaction.amount), Transaction.time, Transaction.longitute, Transaction.latitude)) {
+                Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
