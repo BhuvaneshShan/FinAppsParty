@@ -34,9 +34,7 @@ public class RegistrationIntentService extends IntentService {
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             Log.i(TAG, "GCM Registration Token: " + token);
 
-            //sendRegistrationToServer(token);
-
-            //subscribeTopics(token);
+            sendRegistrationToServer(token);
 
             sharedPreferences.edit().putBoolean(SENT_TOKEN_TO_SERVER, true).apply();
         } catch (Exception e) {
@@ -48,13 +46,6 @@ public class RegistrationIntentService extends IntentService {
     }
 
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
-    }
-
-    private void subscribeTopics(String token) throws IOException {
-        GcmPubSub pubSub = GcmPubSub.getInstance(this);
-        for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
-        }
+        //Call server api and record users' phone number, token
     }
 }

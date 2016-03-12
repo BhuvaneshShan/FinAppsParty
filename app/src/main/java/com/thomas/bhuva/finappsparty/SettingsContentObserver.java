@@ -20,7 +20,6 @@ public class SettingsContentObserver extends ContentObserver{
         context=c;
 
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        //previousVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
         previousVolume = audio.getStreamVolume(STREAM);
     }
 
@@ -33,21 +32,6 @@ public class SettingsContentObserver extends ContentObserver{
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
         Log.i(TAG,"TRansaction successful!");
-        /*
-        AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        int currentVolume = audio.getStreamVolume(STREAM);
-
-        int delta=previousVolume-currentVolume;
-
-        if(delta>0)
-        {
-            Log.d(TAG,"Decreased");
-            previousVolume=currentVolume;
-        }
-        else if(delta<0)
-        {
-            Log.d(TAG, "Increased");
-            previousVolume=currentVolume;
-        }*/
+        //Create Transaction object and Process transaction
     }
 }

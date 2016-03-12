@@ -7,16 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/*
-* This is the class is a helper to the database. It has functions to copy teh database to the app if it is not already present.
-* It also has the function to open the database.
-*
- */
 public class RegDbConn extends SQLiteOpenHelper {
-    /*
-         * The variable DB_PATH points to the location where the database file will be stored in the app
-         * DB_NAME is the name of the database file.
-         */
     private static String DB_PATH = "/data/data/com.thomas.bhuva.finappsparty/databases/";
 
     private static String DB_NAME = "regdb";
@@ -25,37 +16,15 @@ public class RegDbConn extends SQLiteOpenHelper {
 
     public SQLiteDatabase myDataBase=null;
 
-
-
-    /**
-     * Constructor
-     * Takes and keeps a reference of the passed context in order to access to the application assets and resources.
-     * @param context
-     */
     public RegDbConn(Context context) {
 
         super(context, DB_NAME, null, DATABASE_VERSION);
         Log.e("DB OP","DATABASE CREATED");
     }
 
-
-
-
-    /*
-    * Operations to be done while the database is being created or updated can be implemented in the following functions
-    *
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // TODO Auto-generated method stub
-        /*
-        try {
-            createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        //db.execSQL("CREATE DATABASE IF NOT EXISTS"+DB_NAME);
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + RegDb.regDb1.TABLE_NAME +
                         "(_id integer primary key," + RegDb.regDb1.NAME + " text," + RegDb.regDb1.PHONE_NUMBER +

@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MyGcmListenerService extends GcmListenerService implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener{
+public class MyGcmListenerService extends GcmListenerService{
 
     private static final String TAG = "MyGcmListenerService";
 
@@ -30,19 +30,6 @@ public class MyGcmListenerService extends GcmListenerService implements TextToSp
     public MediaPlayer mediaPlayer;
     private Context gcmContext;
 
-    @Override
-    public void onInit(int status) {
-
-        Log.i(TAG,"ON init!");
-       if (status == TextToSpeech.SUCCESS) {
-
-            Log.i(TAG,"tts on init success");
-
-            t1.setLanguage(Locale.UK);
-
-        }
-
-    }
     @Override
     public void onMessageReceived(String from, Bundle data) {
         gcmContext = this.getApplicationContext();
@@ -95,47 +82,15 @@ public class MyGcmListenerService extends GcmListenerService implements TextToSp
             }
         });
 
-
-        //t1.setOnUtteranceProgressListener(new TtsUtteranceListener(getApplicationContext()));
-        /*
-        HashMap<String, String> myHashAlarm = new HashMap<String, String>();
-        myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "SOME MESSAGE");
-        String toSpeak = "The final amount is dollars. Please confirm the payment";
-        Log.i(TAG,"Calling t1 speak");
-        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
-        */
-        //Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-        //t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
         sendNotification(message);
-        //TtsUtteranceListener na = new TtsUtteranceListener(this);
 
         final Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         startActivity(intent);
-
-
     }
-    @Override
-    public void onUtteranceCompleted(String utteranceId) {
-        Log.i(TAG, "On utterance completed " + utteranceId); //utteranceId == "SOME MESSAGE"
-        try {
-            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(this.getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
-            mediaPlayer = MediaPlayer.create(this, defaultRintoneUri);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(0, 0);
-            mediaPlayer.start();
-            Log.i("i", "Media player started!");
 
-            Timer timer = new Timer();
-            timer.schedule(new MusicTimerTask(), 15000);
-            stopSelf();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
     public class MusicTimerTask extends TimerTask {
         @Override
         public void run() {
@@ -148,35 +103,7 @@ public class MyGcmListenerService extends GcmListenerService implements TextToSp
         }
 
     }
-        /*
-        try {
-            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(this.getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
-            mediaPlayer = MediaPlayer.create(this, defaultRintoneUri);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(0, 0);
-            mediaPlayer.start();
-            Log.i("i", "Media player started!");
 
-            Timer timer = new Timer();
-            timer.schedule(new MusicTimerTask(), 15000);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    public class MusicTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            if(mediaPlayer!=null) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                Log.i("i","Media player stopped!");
-            }
-            this.cancel();
-        }
-    }
-
-    */
     private void sendNotification(String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -82,14 +82,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void releaseWakeLock(){
-        Log.i(TAG,"Release wake lock called");
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "MyWakelockTag");
-        wakeLock.release();
-    }
-
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);

@@ -15,7 +15,6 @@ public class RegInsert extends Activity{
 
     public int DEFAULTCARD;
 
-
     Context context;
 
     RegDbConn regdbconn;
@@ -37,9 +36,6 @@ public class RegInsert extends Activity{
         pin = (EditText)findViewById(R.id.pinNo);
 
         DBAdapter(this);
-
-
-
     }
     public void DBAdapter(Context ctx){//This might go up in the constructor
         this.context=ctx;
@@ -62,12 +58,8 @@ public class RegInsert extends Activity{
                     Log.e("ENtry", c.getString(2));
                 } while (c.moveToNext());
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 }
