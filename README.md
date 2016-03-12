@@ -9,7 +9,7 @@ Push notification sent using google cloud messaging
 POST request: https://gcm-http.googleapis.com/gcm/send
 Headers:
   Content-Type : application/json
-  Authorization : key=<project-api-key>
+  Authorization : key= [project-api-key]
 Body:
 { "data": {    
           "message": { 
@@ -17,5 +17,5 @@ Body:
                    },
                   "time": "15:10"
           },
-"to": "<registered app's token>"
+"to": "[registered app's token goes here]"
 }
