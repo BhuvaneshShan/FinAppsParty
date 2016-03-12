@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_id": "finappsparty-1248",
+    "project_number": "872295320558",
+    "name": "FinAppsParty"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872295320558:android:07fb053e92124d5c",
+        "client_id": "android:com.thomas.bhuva.finappsparty",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.thomas.bhuva.finappsparty",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
