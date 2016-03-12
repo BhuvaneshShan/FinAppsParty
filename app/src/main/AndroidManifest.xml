@@ -56,6 +56,11 @@
             android:name=".RegistrationIntentService"
             android:exported="false">
         </service>
+
+        <activity android:name=".RegInsert"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

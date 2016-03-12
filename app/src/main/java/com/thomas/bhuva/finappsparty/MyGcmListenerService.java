@@ -1,35 +1,113 @@
 package com.thomas.bhuva.finappsparty;
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.PowerManager;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MyGcmListenerService extends GcmListenerService {
+public class MyGcmListenerService extends GcmListenerService implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener{
 
     private static final String TAG = "MyGcmListenerService";
-    public  static MediaPlayer mediaPlayer;
+
+    public TextToSpeech t1;
+    public String Amount;
+    public MediaPlayer mediaPlayer;
+    private Context gcmContext;
+
+    @Override
+    public void onInit(int status) {
+
+        Log.i(TAG,"ON init!");
+       if (status == TextToSpeech.SUCCESS) {
+
+            Log.i(TAG,"tts on init success");
+
+            t1.setLanguage(Locale.UK);
+
+        }
+
+    }
     @Override
     public void onMessageReceived(String from, Bundle data) {
+        gcmContext = this.getApplicationContext();
         String message = data.getString("message");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
+        try {
+            JSONObject obj = new JSONObject(message);
+            Amount = obj.getString("Amount");
+            Log.i(TAG,"Amnt:"+Amount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        t1 = new TextToSpeech(this.getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                Log.i(TAG, "tts on init listener!");
+                t1.setLanguage(Locale.UK);
+
+                t1.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+                    @Override
+                    public void onUtteranceCompleted(String utteranceId) {
+                        Log.i(TAG, "On utterance completed " + utteranceId); //utteranceId == "SOME MESSAGE"
+                        try {
+                            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(gcmContext, RingtoneManager.TYPE_RINGTONE);
+                            mediaPlayer = MediaPlayer.create(gcmContext, defaultRintoneUri);
+                            mediaPlayer.setLooping(true);
+                            mediaPlayer.setVolume(0, 0);
+                            mediaPlayer.start();
+                            Log.i("i", "Media player started!");
+
+                            Timer timer = new Timer();
+                            timer.schedule(new MusicTimerTask(), 15000);
+                            stopSelf();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+                HashMap<String, String> myHashAlarm = new HashMap<String, String>();
+                myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "SOME MESSAGE");
+                String toSpeak = "The bill amount is "+Amount+" Please confirm the payment";
+                Log.i(TAG, "Calling t1 speak");
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+            }
+        });
+
+
+        //t1.setOnUtteranceProgressListener(new TtsUtteranceListener(getApplicationContext()));
+        /*
+        HashMap<String, String> myHashAlarm = new HashMap<String, String>();
+        myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "SOME MESSAGE");
+        String toSpeak = "The final amount is dollars. Please confirm the payment";
+        Log.i(TAG,"Calling t1 speak");
+        t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+        */
+        //Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+        //t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
         sendNotification(message);
+        //TtsUtteranceListener na = new TtsUtteranceListener(this);
 
         final Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -37,28 +115,68 @@ public class MyGcmListenerService extends GcmListenerService {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         startActivity(intent);
 
-        Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(this.getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
-        mediaPlayer = MediaPlayer.create(this, defaultRintoneUri);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(0, 0);
-        mediaPlayer.start();
-        Log.i(TAG,"Media player started!");
-
-        Timer timer = new Timer();
-        timer.schedule(new MusicTimerTask(), 15000);
 
     }
-    public class MusicTimerTask extends TimerTask{
+    @Override
+    public void onUtteranceCompleted(String utteranceId) {
+        Log.i(TAG, "On utterance completed " + utteranceId); //utteranceId == "SOME MESSAGE"
+        try {
+            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(this.getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+            mediaPlayer = MediaPlayer.create(this, defaultRintoneUri);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(0, 0);
+            mediaPlayer.start();
+            Log.i("i", "Media player started!");
+
+            Timer timer = new Timer();
+            timer.schedule(new MusicTimerTask(), 15000);
+            stopSelf();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public class MusicTimerTask extends TimerTask {
         @Override
         public void run() {
             if(mediaPlayer!=null) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                Log.i(TAG,"Media player stopped!");
+                Log.i("i","Media player stopped!");
+            }
+            this.cancel();
+        }
+
+    }
+        /*
+        try {
+            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(this.getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+            mediaPlayer = MediaPlayer.create(this, defaultRintoneUri);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(0, 0);
+            mediaPlayer.start();
+            Log.i("i", "Media player started!");
+
+            Timer timer = new Timer();
+            timer.schedule(new MusicTimerTask(), 15000);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public class MusicTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            if(mediaPlayer!=null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                Log.i("i","Media player stopped!");
             }
             this.cancel();
         }
     }
+
+    */
     private void sendNotification(String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

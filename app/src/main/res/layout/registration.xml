@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Name"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="31dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custName"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_marginLeft="78dp"
+        android:layout_marginStart="78dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone number"
+        android:id="@+id/textView2"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneNumber"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignLeft="@+id/custName"
+        android:layout_alignStart="@+id/custName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Card number"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Expiry date"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginTop="31dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/expDate"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignLeft="@+id/phoneNumber"
+        android:layout_alignStart="@+id/phoneNumber" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/cardNo"
+        android:layout_above="@+id/expDate"
+        android:layout_alignLeft="@+id/expDate"
+        android:layout_alignStart="@+id/expDate" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CVV"
+        android:id="@+id/textView5"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:ems="10"
+        android:id="@+id/cVV"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/expDate"
+        android:layout_alignStart="@+id/expDate" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Billing Address"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/cVV"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5"
+        android:layout_marginTop="26dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/billAddr"
+        android:layout_alignTop="@+id/textView6"
+        android:layout_alignLeft="@+id/cVV"
+        android:layout_alignStart="@+id/cVV"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City"
+        android:id="@+id/textView7"
+        android:layout_below="@+id/billAddr"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city"
+        android:layout_alignTop="@+id/textView7"
+        android:layout_alignLeft="@+id/billAddr"
+        android:layout_alignStart="@+id/billAddr"
+        android:layout_alignRight="@+id/cVV"
+        android:layout_alignEnd="@+id/cVV" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="State"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/city"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignStart="@+id/textView7" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/state"
+        android:layout_below="@+id/city"
+        android:layout_alignLeft="@+id/city"
+        android:layout_alignStart="@+id/city"
+        android:layout_alignRight="@+id/billAddr"
+        android:layout_alignEnd="@+id/billAddr" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PIN code"
+        android:id="@+id/textView9"
+        android:layout_below="@+id/state"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_alignStart="@+id/textView8" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/pinNo"
+        android:layout_alignTop="@+id/textView9"
+        android:layout_alignLeft="@+id/state"
+        android:layout_alignStart="@+id/state" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/register"
+        android:onClick="addReg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button2"
+        android:onClick="display"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/register"
+        android:layout_toEndOf="@+id/register" />
+
+</RelativeLayout>

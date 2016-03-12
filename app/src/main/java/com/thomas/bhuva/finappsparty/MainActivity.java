@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -103,5 +104,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void gotoreg(View view){
+        Intent myIntent1 = new Intent(this, RegInsert.class);
+        startActivity(myIntent1);
     }
 }
