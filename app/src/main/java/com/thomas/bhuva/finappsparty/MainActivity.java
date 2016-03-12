@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
+    public SettingsContentObserver mSettingsContentObserver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +40,8 @@ public class MainActivity extends AppCompatActivity {
                 boolean sentToken = sharedPreferences
                         .getBoolean(SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
-                    //mInformationTextView.setText(getString(R.string.gcm_send_message));
                     Log.i(TAG,"gcm sent token");
                 } else {
-                    //mInformationTextView.setText(getString(R.string.token_error_message));
                     Log.i(TAG, "gcm token errror message");
                 }
             }
@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG,"starting intent");
             startService(intent);
         }
+
+       mSettingsContentObserver = new SettingsContentObserver(this,new android.os.Handler());
+        getApplicationContext().getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, mSettingsContentObserver );
     }
 
     @Override
@@ -71,13 +74,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerReceiver(){
-        Log.i(TAG,"register reciever called");
         if(!isReceiverRegistered) {
-            Log.i(TAG,"registering receiver!");
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
         }
+    }
+
+    private void releaseWakeLock(){
+        Log.i(TAG,"Release wake lock called");
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "MyWakelockTag");
+        wakeLock.release();
     }
 
     private boolean checkPlayServices() {
