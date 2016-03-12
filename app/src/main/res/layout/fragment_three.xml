@@ -31,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GPS"
-                android:id="@+id/GPS" />
+                android:id="@+id/GPS"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="VolumeKeyPress"
-                android:id="@+id/VolumeKeyPress" />
+                android:id="@+id/VolumeKeyPress"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

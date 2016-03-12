@@ -31,7 +31,11 @@ public class SettingsContentObserver extends ContentObserver{
     @Override
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
-        Log.i(TAG,"TRansaction successful!");
-        //Create Transaction object and Process transaction
+        if(Transaction.transactionPending()) {
+            //Create Transaction object and Process transaction
+            Log.i(TAG, "TRansaction started!");
+            Transaction.processTransaction();
+            Transaction.clearTransactionDetails();
+        }
     }
 }

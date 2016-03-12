@@ -39,11 +39,13 @@ public class MyGcmListenerService extends GcmListenerService{
 
         try {
             JSONObject obj = new JSONObject(message);
-            Amount = obj.getString("Amount");
-            Log.i(TAG,"Amnt:"+Amount);
+
+            Transaction.newTransaction(obj);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 
 
         t1 = new TextToSpeech(this.getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -57,16 +59,29 @@ public class MyGcmListenerService extends GcmListenerService{
                     public void onUtteranceCompleted(String utteranceId) {
                         Log.i(TAG, "On utterance completed " + utteranceId); //utteranceId == "SOME MESSAGE"
                         try {
-                            Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(gcmContext, RingtoneManager.TYPE_RINGTONE);
-                            mediaPlayer = MediaPlayer.create(gcmContext, defaultRintoneUri);
-                            mediaPlayer.setLooping(true);
-                            mediaPlayer.setVolume(0, 0);
-                            mediaPlayer.start();
-                            Log.i("i", "Media player started!");
 
-                            Timer timer = new Timer();
-                            timer.schedule(new MusicTimerTask(), 15000);
-                            stopSelf();
+                            if(Transaction.mode == Transaction.VOLUMEPRESS) {
+
+                                Uri defaultRintoneUri = RingtoneManager.getActualDefaultRingtoneUri(gcmContext, RingtoneManager.TYPE_RINGTONE);
+                                mediaPlayer = MediaPlayer.create(gcmContext, defaultRintoneUri);
+                                mediaPlayer.setLooping(true);
+                                mediaPlayer.setVolume(0, 0);
+                                mediaPlayer.start();
+                                Log.i("i", "Media player started!");
+
+                                Timer timer = new Timer();
+                                timer.schedule(new MusicTimerTask(), 15000);
+                                stopSelf();
+
+                            }else if(Transaction.mode == Transaction.GPS){
+
+                               //get and check gps
+
+                                t1.speak("GPS coordinates match! Transaction processing and is successful!",TextToSpeech.QUEUE_FLUSH,null);
+
+                                stopSelf();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -76,7 +91,7 @@ public class MyGcmListenerService extends GcmListenerService{
 
                 HashMap<String, String> myHashAlarm = new HashMap<String, String>();
                 myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "SOME MESSAGE");
-                String toSpeak = "The bill amount is "+Amount+" Please confirm the payment";
+                String toSpeak = "The bill amount is "+Transaction.amount+" Please confirm the payment";
                 Log.i(TAG, "Calling t1 speak");
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
             }
@@ -95,9 +110,10 @@ public class MyGcmListenerService extends GcmListenerService{
         @Override
         public void run() {
             if(mediaPlayer!=null) {
+                Transaction.clearTransactionDetails();
                 mediaPlayer.stop();
                 mediaPlayer.release();
-                Log.i("i","Media player stopped!");
+                Log.i(TAG,"Media player stopped!");
             }
             this.cancel();
         }
